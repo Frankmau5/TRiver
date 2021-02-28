@@ -5,9 +5,11 @@ gi.require_version("Gtk", "3.0")
 gi.require_version('Handy', '1')
 
 import sys
-
+import datetime
+import json
+import torrent_parser as tp
 from gi.repository import GObject, GLib, Gtk, Gio , Handy
-
+from icecream import ic
 
 # https://github.com/7sDream/torrent_parser
 
@@ -17,6 +19,7 @@ class Application(Gtk.Application):
         super().__init__(application_id='mlv.knrf.TRiver')
         GLib.set_application_name('TRiver')
         GLib.set_prgname('mlv.knrf.TRiver')
+        self.triver_backend = TRiver_Backend()
 
     def do_activate(self):
         window = Gtk.ApplicationWindow(application=self)
@@ -40,16 +43,13 @@ class Application(Gtk.Application):
         open_btn = Gtk.ModelButton(label="Open")
         open_btn.connect("clicked", self.on_open)
 
-        save_btn = Gtk.ModelButton(label="Save")
-        save_btn.connect("clicked", self.on_save)
-
-        edit_btn = Gtk.ToggleButton(label="Editable")
-        edit_btn.connect("clicked", self.on_edit)
+        about_btn = Gtk.ModelButton(label="About")
+        about_btn.connect("clicked", self.on_about)
 
 
         vbox.pack_start(open_btn, False, True, 5)
-        vbox.pack_start(save_btn, False, True, 5)
-        vbox.pack_start(edit_btn, False, True, 5)
+        vbox.pack_start(about_btn, False, True, 5)
+
         vbox.show_all()
         self.popover.add(vbox)
         self.popover.set_position(Gtk.PositionType.BOTTOM)
@@ -66,6 +66,8 @@ class Application(Gtk.Application):
     def mk_main_ui(self):
         scroll_win = Gtk.ScrolledWindow()
         self.text_edit = Gtk.TextView()
+        self.text_edit.set_left_margin(20)
+        self.text_edit.set_wrap_mode(Gtk.WrapMode(2))
         self.text_edit.set_editable(False)
         self.text_edit.set_cursor_visible(False)
         self.text_buffer = self.text_edit.get_buffer()
@@ -75,7 +77,6 @@ class Application(Gtk.Application):
         return scroll_win
 
     # event handlers
-
     def on_open(self, model_button):
         open_dialog = Gtk.FileChooserDialog(title="Open file",  action=Gtk.FileChooserAction.OPEN)
         open_dialog.add_buttons(
@@ -87,46 +88,81 @@ class Application(Gtk.Application):
         open_dialog.resize(200, 200)    
         response = open_dialog.run()
         if response == Gtk.ResponseType.OK:
-            print("Open clicked")
-            print("File selected: " + open_dialog.get_filename())
+            try:
+                text = self.triver_backend.get_torrent_data(open_dialog.get_filename())
+                self.text_buffer.set_text(text)
+            except Exception as e:
+                print(str(e))
+                open_dialog.destroy()
         elif response == Gtk.ResponseType.CANCEL:
             pass
         else:
             pass
         open_dialog.destroy()
-
-    def on_save(self, model_button):
-        save_dialog = Gtk.FileChooserDialog(title="Save File",  action=Gtk.FileChooserAction.SAVE)
-        save_dialog.add_buttons(
-            Gtk.STOCK_CANCEL,
-            Gtk.ResponseType.CANCEL,
-            Gtk.STOCK_SAVE,
-            Gtk.ResponseType.OK,)
-
-        save_dialog.resize(200, 200)    
-        response = save_dialog.run()
-        if response == Gtk.ResponseType.OK:
-            print("Open clicked")
-            print("File selected: " + save_dialog.get_filename())
-        elif response == Gtk.ResponseType.CANCEL:
-            pass
-        else:
-            pass
-        save_dialog.destroy()
-
-    def on_edit(self, model_button):
-        if model_button.get_active():
-            self.text_edit.set_editable(True)
-            self.text_edit.set_cursor_visible(True)
-        else:
-            self.text_edit.set_editable(False)
-            self.text_edit.set_cursor_visible(False)
+    
+    def on_about(self, model_button):
+        #icon = GdkPixbuf.Pixbuf.new_from_file()
+        about = Gtk.AboutDialog()
+        about.resize(200,200)
+        about.set_version("1.0.0")
+        about.set_website("https://github.com/Frankmau5/TRiver")
+        about.set_license("GPLv3 Read more here : https://github.com/Frankmau5/TRiver/blob/main/LICENSE")
+        about.set_comments("A Torrent file viewer - by knrf")
+        about.show_all()
 
 
 class TRiver_Backend():
     def __init__(self):
-        pass
+        self.data = None
 
+    def get_torrent_data(self, filepath):
+        self.data = tp.parse_torrent_file(filepath)
+        text = ""
+
+        for key in self.data:
+            if key == "creation date":
+                try:
+                    dt = datetime.date.fromtimestamp(self.data[key])
+                    text = text + str(key) + " = " + str(dt) + "\n\n"
+                    continue
+                except OverflowError as of:
+                    print(str(of))
+                except OSError as ose:
+                    print(str(ose))
+            
+            if key == "announce-list":
+                d = self.data[key]
+                text = text + str(key) + " = "
+                for da in d:
+                    for dat in da:
+                        text = text + str(dat) + " , \n" 
+
+                text = text + "\n\n"
+                continue
+            
+            # work needed 
+            if key == "info":
+                text = text + "Files = "
+                for ckey in self.data[key]:
+                    if ckey == "files":
+                        for d in self.data[key][ckey]:
+                            text = text + "Length" + " : " + str(d["length"])   + " , "
+                            text = text + "Filename" + " : " + str(d["path"])   + " \n"  
+                text = text + "\n\n"
+                continue
+
+            if key == "nodes":
+                d = self.data[key]
+                text = text + str(key) + " = "
+                for da in d:
+                    text = text + str(da[0]) + ":" + str(da[1])   + " , "
+                text = text + "\n\n"
+                continue
+
+            text = text + str(key) + " = " + str(self.data[key]) + "\n\n"
+
+        return text
+    
 def main():
     Handy.init()
     app = Application()
