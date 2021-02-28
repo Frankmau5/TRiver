@@ -1,9 +1,9 @@
 # TRiver
-A Gtk Torrent editor with pinephone support
+A Gtk Torrent viewer with pinephone support
 
 #### Description
 
-A Gtk Torrent editor with pinephone support
+A Gtk Torrent viewer with pinephone support
 
 
 
