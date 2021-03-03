@@ -6,12 +6,10 @@ gi.require_version('Handy', '1')
 
 import sys
 import datetime
-import json
 import torrent_parser as tp
+import humanize
 from gi.repository import GObject, GLib, Gtk, Gio , Handy
-from icecream import ic
 
-# https://github.com/7sDream/torrent_parser
 
 class Application(Gtk.Application):
 
@@ -140,14 +138,19 @@ class TRiver_Backend():
                 text = text + "\n\n"
                 continue
             
-            # work needed 
             if key == "info":
-                text = text + "Files = "
                 for ckey in self.data[key]:
-                    if ckey == "files":
+                    if ckey == "files" :
+                        text = text + "Files = "
                         for d in self.data[key][ckey]:
-                            text = text + "Length" + " : " + str(d["length"])   + " , "
-                            text = text + "Filename" + " : " + str(d["path"])   + " \n"  
+                            text = text + "Size" + " : " + str(self.human_readable_size(d["length"]))   + " , "
+                            text = text + "Filename" + " : " + str(d["path"])   + " \n"
+                    if "Files =" not in text:
+                        if ckey == "name":
+                            text = text + " File = " + self.data[key]["name"]
+                        if ckey == "length":
+                            text = text + "Size : " + str(self.human_readable_size(self.data[key]["length"]))
+                            
                 text = text + "\n\n"
                 continue
 
@@ -162,10 +165,13 @@ class TRiver_Backend():
             text = text + str(key) + " = " + str(self.data[key]) + "\n\n"
 
         return text
+
+    def human_readable_size(self, byte_size):
+        return humanize.naturalsize(byte_size, gnu=True)
     
 def main():
     Handy.init()
     app = Application()
     rvalue = app.run(sys.argv)
 
-main() # debug
+#main() # debug
