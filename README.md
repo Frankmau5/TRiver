@@ -1,9 +1,9 @@
 # TRiver
-A Gtk Torrent viewer
+A Torrent viewer
 
 #### Description
 
-A Gtk Torrent viewer
+A Torrent viewer for Linux(GTK) and Windows(Tkinter)
 
 When phosh for pinephone fixes the GTK dialogs then you will be able to use it on pinephone
 
@@ -18,6 +18,12 @@ Install for Linux Desktop
 
 For Windows
 
+clone project and got tot the windows folder in the src folder.
+run the requirements.txt file with pip
+
+`pip install -r requirements.txt`
+
+then just double click on the TRiver_windows.py
 #### Build
 
 For Linux 
@@ -25,8 +31,6 @@ For Linux
 `flatpak-builder --repo=myrepo _flatpac  mlv.knrf.TRiver.json`
 
 `flatpak build-bundle  myrepo pastebinReader.flatpak mlv.knrf.TRiver`
-
-For Windows
 
 #### Usage
 
@@ -37,4 +41,5 @@ you can run in the terminal.
 `flatpak run mlv.krnf.triver` 
 
 
-
+For Windows 
+just double click on the TRiver_windows.py  
