@@ -4,7 +4,7 @@
 
 A Torrent Editor for Linux ,Windows Mac
 
-![Image needed](image.PNG)
+![Image needed](Image.PNG)
 
 
 ### License
