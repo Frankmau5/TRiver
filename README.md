@@ -4,7 +4,7 @@
 
 A Torrent Editor for Linux ,Windows Mac
 
-![Image needed](/imgs/image.PNG)
+![Image needed](image.PNG)
 
 
 ### License
@@ -18,7 +18,7 @@ GPLv3 - [read here](https://github.com/Frankmau5/TRiver/blob/main/LICENSE)
 
 #### For Windows
 
-Download the ex file and double click on the exe
+Download the exe file and then double click on the exe
 
 #### For Mac
 
