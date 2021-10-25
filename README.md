@@ -1,45 +1,35 @@
 # TRiver
-A Torrent viewer
 
-#### Description
+### Description
 
-A Torrent viewer for Linux(GTK) and Windows(Tkinter)
+A Torrent Editor for Linux ,Windows Mac
 
-When phosh for pinephone fixes the GTK dialogs then you will be able to use it on pinephone
+![Image needed](/imgs/image.PNG)
 
-#### License
+
+### License
 GPLv3 - [read here](https://github.com/Frankmau5/TRiver/blob/main/LICENSE)
 
-#### Install
+### Install
 
-Install for Linux Desktop
+#### For Linux Desktop
 
 `flatpak --user install triver-x86-64-v1.0.0.flatpak`
 
-For Windows
+#### For Windows
 
-clone project and got tot the windows folder in the src folder.
+Download the ex file and double click on the exe
+
+#### For Mac
+
+clone project and go to the src folder.
 run the requirements.txt file with pip
 
 `pip install -r requirements.txt`
 
-then just double click on the TRiver_windows.py
-#### Build
+then just double click on the main.py or run 
 
-For Linux 
+`python main.py`
 
-`flatpak-builder --repo=myrepo _flatpac  mlv.knrf.TRiver.json`
+In a Terminal
 
-`flatpak build-bundle  myrepo pastebinReader.flatpak mlv.knrf.TRiver`
-
-#### Usage
-
-There should be a desktop entry in your luncher. You might want to try to logout.
-
-you can run in the terminal.
-
-`flatpak run mlv.krnf.triver` 
-
-
-For Windows 
-just double click on the TRiver_windows.py  
