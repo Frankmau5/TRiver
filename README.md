@@ -14,11 +14,13 @@ GPLv3 - [read here](https://github.com/Frankmau5/TRiver/blob/main/LICENSE)
 
 #### For Linux Desktop
 
-`flatpak --user install triver-x86-64-v1.0.0.flatpak`
+Download the TRiver file and place it where you want but you might want to add it to your PATH
+[title](https://github.com/Frankmau5/TRiver/releases/download/v1.0.1/TRiver)
 
 #### For Windows
 
 Download the exe file and then double click on the exe
+[title](https://github.com/Frankmau5/TRiver/releases/download/v1.0.1/main.exe)
 
 #### For Mac
 
