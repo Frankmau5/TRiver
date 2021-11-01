@@ -14,13 +14,13 @@ GPLv3 - [read here](https://github.com/Frankmau5/TRiver/blob/main/LICENSE)
 
 #### For Linux Desktop
 
-Download the TRiver file and place it where you want but you might want to add it to your PATH
-[Here](https://github.com/Frankmau5/TRiver/releases/download/v1.0.1/TRiver)
+Download [Here](https://github.com/Frankmau5/TRiver/releases/download/v1.0.1/TRiver) the TRiver file and place it where you want but you might want to add it to your PATH
+
 
 #### For Windows
 
-Download the exe file and then double click on the exe
-[HERE](https://github.com/Frankmau5/TRiver/releases/download/v1.0.1/main.exe)
+Download [HERE](https://github.com/Frankmau5/TRiver/releases/download/v1.0.1/main.exe) the exe file and then double click on the exe
+
 
 #### For Mac
 
