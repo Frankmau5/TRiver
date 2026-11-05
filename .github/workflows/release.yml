@@ -52,8 +52,9 @@ jobs:
           pyinstaller --onefile --name ${{ matrix.bin_name }} main.py
 
       - name: Upload executable to GitHub Release
+        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event.inputs.tag || github.ref_name }}
         run: |
-          TAG="${{ github.event.inputs.tag || github.ref_name }}"
-          gh release upload "$TAG" "${{ matrix.asset_path }}" --clobber
+          gh release upload "$RELEASE_TAG" "${{ matrix.asset_path }}" --clobber
