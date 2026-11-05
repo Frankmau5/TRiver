@@ -4,7 +4,13 @@
 
 **TRiver** (short for **Torrent River**) is a torrent metadata viewer and editor for Linux, Windows, and macOS.
 
-![Image needed](Image.PNG)
+### Screenshots
+
+#### Tkinter GUI
+![TRiver Tkinter GUI](Image.PNG)
+
+#### Flet GUI (`--flet`)
+![TRiver Flet GUI](fleet.png)
 
 
 ### License
